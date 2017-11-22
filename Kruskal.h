@@ -10,6 +10,7 @@
 #include <utility>
 #include <string>
 #include <set>
+#include <cstdlib>
 using namespace std;
 
 struct edge{
@@ -17,18 +18,17 @@ struct edge{
   int weight;
   int mandatory; // 0 or 1
   // Sorted mandatory edges at the top of the queue above other sorted edges
-  bool operator<(edge a,edge b){
-    if(a.mandatory != b.mandatory) { return a.mandatory > b.mandatory }
-    else { return a.weight > b.weight; }
+  friend bool operator< (const edge &a, const edge &b){
+      if(a.mandatory != b.mandatory) { return a.mandatory > b.mandatory; }
+      else { return a.weight > b.weight; }
   }
-}
-
+};
 
 class Kruskal{
   public:
     priority_queue<edge> edges;
     // Test whether loop exists; first is value, second is its root value
-    vector<pair<int, int>> uf;
+    vector< pair<int, int> > uf;
     vector<edge> tree;
     int totalWeight;
     bool loop;
@@ -54,6 +54,6 @@ class Kruskal{
     void addEdge();
     // sort the tree vector based on weight
     void sortTree();
-}
+};
 
 #endif

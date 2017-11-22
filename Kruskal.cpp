@@ -7,6 +7,7 @@
 #include <utility>
 #include <string>
 #include <set>
+#include <cstdlib>
 #include "Kruskal.h"
 
 using namespace std;
@@ -34,8 +35,8 @@ int Kruskal::root(int value){
 // Check if p and q have the same root (loop exists if adding p and q)
 bool Kruskal::find(int p, int q){ return root(p) == root(q); }
 
-// merge when adding an edge between x and y
-void Kruskal::merge(int x, int y){
+// merge when adding an edge between p and q
+void Kruskal::merge(int p, int q){
   int i = root(p);
   int j = root(q);
   uf[i].second = uf[j].second;
@@ -45,7 +46,8 @@ void Kruskal::merge(int x, int y){
 void Kruskal::addEdge(){
   // Step 1: pop top edge from priority queue and
   // test whether it will cause a loop if it's not mandatory (bid)
-  edge e = edges.pop();
+  edge e = edges.top();
+  edges.pop();
   if(e.mandatory == 1){
     if(find(e.point1, e.point2)){ loop = true; }
   }
@@ -70,9 +72,9 @@ void Kruskal::addEdges(){
 // Number of connected components
 int Kruskal::component(){
   set<int> roots;
-  for(i = 0; i < uf.size(); i++){
-    int root = root(uf[i].first);
-    if(roots.find(root) != roots.end()){ roots.insert(root); }
+  for(int i = 0; i < uf.size(); i++){
+    int rootValue = root(uf[i].first);
+    if(roots.find(rootValue) != roots.end()){ roots.insert(rootValue); }
   }
   return roots.size();
 }
@@ -82,14 +84,14 @@ void Kruskal::sortTree(){
   vector<edge> temp;
   while(tree.size() != 0){
     int min = tree[0].weight;
-    int earseIndex = 0;
+    int eraseIndex = 0;
     for (int i = 0; i < tree.size(); i++){
       if(tree[i].weight < min) {
         min = tree[i].weight;
         eraseIndex = i;
       }
     }
-    temp.push_back(min);
+    temp.push_back(tree[eraseIndex]);
     tree.erase(tree.begin() + eraseIndex);
   }
   tree = temp;
@@ -104,7 +106,7 @@ void Kruskal::printTree(){
       max = min;
       min = temp;
     }
-    cout << "(" + min + "," + max + ") ";
+    cout << "(" << min << "," << max << ") ";
   }
   cout << endl;
 }

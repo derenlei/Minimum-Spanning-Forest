@@ -4,9 +4,10 @@
 #include <utility>
 #include <string>
 #include <set>
+#include <cstdlib>
 #include "Kruskal.h"
 
-using namespace std
+using namespace std;
 
 vector<string> strToVec(string sentence){
   vector<string> vec;
@@ -30,44 +31,47 @@ vector<string> strToVec(string sentence){
 int main(){
   Kruskal kruskal;
   string line;
+  edge e;
   while(true){
     getline(cin, line);
     vector<string> words= strToVec(line);
-    switch(words[0]){
-      case "END": exit(0);
-      case "LIST?":
-        kruskal.printTree();
-        break;
-      case "COST?":
-        cout << kruskal.totalWeight << endl;
-        break;
-      case "CYCLE?":
-        if(loop){ cout << "YES" << endl; }
-        else { cout << "NO" << endl; }
-        break;
-      case "COMPONENTS?":
-        cout << kruskal.component() << endl;
-        break;
-      case: "BID":
-        e.point1 = words[1];
-        e.point2 = words[2]
-        e.weight = words[3]
+      if (words[0] == "BID"){
+        e.point1 = atoi(words[1].c_str());
+        e.point2 = atoi(words[2].c_str());
+        e.weight = atoi(words[3].c_str());
         e.mandatory = 0;
         kruskal.edges.push(e);
-        break;
-      case: "MANDAORY":
-        e.point1 = words[1];
-        e.point2 = words[2]
-        e.weight = words[3]
+      }
+      else if (words[0] == "MANDAORY"){
+        e.point1 = atoi(words[1].c_str());
+        e.point2 = atoi(words[2].c_str());
+        e.weight = atoi(words[3].c_str());
         e.mandatory = 1;
         kruskal.edges.push(e);
-        break;
-      case: "SHORTEST_PATH?":
+      }
+      else if (words[0] == "COST?"){
+        kruskal.addEdges();
+        cout << kruskal.totalWeight << endl;
+      }
+      else if (words[0] == "COMPONENTS?"){
+        kruskal.addEdges();
+        cout << kruskal.component() << endl;
+      }
+      else if (words[0] == "CYCLE?"){
+        kruskal.addEdges();
+        if(kruskal.loop){ cout << "YES" << endl; }
+        else { cout << "NO" << endl; }
+      }
+      else if (words[0] == "LIST?"){
+        kruskal.addEdges();
+        kruskal.printTree();
+      }
+      else if (words[0] == "END"){ exit(0); }
+      else if (words[0] == "SHORTEST_PATH?"){
+        kruskal.addEdges();
         //TODO
-
+      }
+      line = "";
     }
-
-    line = "";
-  }
-  return 0;
+    return 0;
 }

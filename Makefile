@@ -1,4 +1,4 @@
-prog1: main.o Kruskal.o
+prog2: main.o Kruskal.o
 	g++ -std=c++11 -Wall main.o Kruskal.o -o prog2
 
 main.o: main.cpp
