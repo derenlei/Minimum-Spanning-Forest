@@ -42,7 +42,7 @@ int main(){
         e.mandatory = 0;
         kruskal.edges.push(e);
       }
-      else if (words[0] == "MANDAORY"){
+      else if (words[0] == "MANDATORY"){
         e.point1 = atoi(words[1].c_str());
         e.point2 = atoi(words[2].c_str());
         e.weight = atoi(words[3].c_str());

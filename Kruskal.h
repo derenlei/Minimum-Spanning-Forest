@@ -41,7 +41,7 @@ class Kruskal{
     // Number of connected components
     int component();
     // print Shorted path from point1 to point2
-    void path();
+    void path(int start, int end);
   private:
     // Union Find
     int index(int value); // find value's index in pair vector
@@ -54,6 +54,7 @@ class Kruskal{
     void addEdge();
     // sort the tree vector based on weight
     void sortTree();
+    vector<int> connections(int node);
 };
 
 #endif

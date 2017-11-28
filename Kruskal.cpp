@@ -26,6 +26,7 @@ int Kruskal::index(int value){
 
 // Find root's index for value
 int Kruskal::root(int value){
+  if(index(value) == -1) { return -1; }
   while(value != uf[index(value)].second) {
     value = uf[index(value)].second;
   }
@@ -33,7 +34,10 @@ int Kruskal::root(int value){
 }
 
 // Check if p and q have the same root (loop exists if adding p and q)
-bool Kruskal::find(int p, int q){ return root(p) == root(q); }
+bool Kruskal::find(int p, int q){
+  if(root(p) == -1 || root(q) == -1) { return false; }
+  return root(p) == root(q);
+}
 
 // merge when adding an edge between p and q
 void Kruskal::merge(int p, int q){
@@ -46,8 +50,11 @@ void Kruskal::merge(int p, int q){
 void Kruskal::addEdge(){
   // Step 1: pop top edge from priority queue and
   // test whether it will cause a loop if it's not mandatory (bid)
+
   edge e = edges.top();
+  //cout << e.point1 << " " << e.point2 << " " << e.weight;
   edges.pop();
+
   if(e.mandatory == 1){
     if(find(e.point1, e.point2)){ loop = true; }
   }
@@ -64,7 +71,9 @@ void Kruskal::addEdge(){
 
 // Add all suitable edges from priority queue
 void Kruskal::addEdges(){
-  while(!tree.empty()){
+  //cout << "Tree size " << edges.size() << endl;
+  while(!edges.empty()){
+    //cout << "Add edge ";
     addEdge();
   }
 }
@@ -72,9 +81,14 @@ void Kruskal::addEdges(){
 // Number of connected components
 int Kruskal::component(){
   set<int> roots;
+  //cout << uf.size();
   for(int i = 0; i < uf.size(); i++){
     int rootValue = root(uf[i].first);
-    if(roots.find(rootValue) != roots.end()){ roots.insert(rootValue); }
+    //cout << root(uf[i].first) << endl;
+    if(roots.find(rootValue) == roots.end()){
+      cout << "Insert" << rootValue << endl;
+      roots.insert(rootValue);
+    }
   }
   return roots.size();
 }
@@ -109,4 +123,46 @@ void Kruskal::printTree(){
     cout << "(" << min << "," << max << ") ";
   }
   cout << endl;
+}
+
+// Find all nodes connected to
+vector< vector<int> > Kruskal::connections(int node, int weight){
+  vector< vector<int> > connections; //< to, from, weight>
+  for(int i = 0; i < tree.size(); i++){
+    if(node == tree[i].point1) {
+      vector<int> temp = {tree[i].point2, node, weight + tree[i].weight};
+      connections.push_back(temp);
+    }
+    else if(node == tree[i].point2) {
+      vector<int> temp = {tree[i].point1, node, weight + tree[i].weight};
+      connections.push_back(temp);
+    }
+  }
+  return connections;
+}
+
+void Kruskal::path(int start, int end){
+  vector< vector<int> > nodes;
+  vector< vector<int> > route; //< to, from, weight>
+  int beginNode = start;
+  int weight = 0;
+  while(true){
+
+    route = connections(beginNode, weight);
+
+    // find the minimum weight one from route and store weight
+    int minWeight = path[0][2];
+    int beginNode = path[0][1];
+    for(int i = 0; i < path.size()){
+      if(path[i][2] < minWeight){
+        minWeight = path[i][2];
+        beginNode = path[i][1];
+      }
+    }
+    weight = minWeight;
+
+
+
+    if(beginNode == end) { break; }
+  }
 }
