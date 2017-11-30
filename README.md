@@ -40,3 +40,11 @@ constraint that the route is present in the solution. Note that this will be ask
 cycles exist in the solution. The shortest path should be output in path order (if the query is
 “SHORTEST_PATH? 15 99” and the path goes from 15 to 68 to 3 to 55 to 99, the output should
 be “15 68 3 55 99”.
+
+## Testing Driver
+Make a matching inputXXX.txt and outputXXX.txt
+Invoke the driver with python3 like so:
+
+python3 driver.py XXX
+
+The input will be processed line by line and fed to prog2. Put a newline when it is time to wait for output. That empty line won't be sent to prog2. It's just there to signal to the driver to wait.
