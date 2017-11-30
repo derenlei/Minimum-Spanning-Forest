@@ -86,7 +86,7 @@ int Kruskal::component(){
     int rootValue = root(uf[i].first);
     //cout << root(uf[i].first) << endl;
     if(roots.find(rootValue) == roots.end()){
-      cout << "Insert" << rootValue << endl;
+      //cout << "Insert" << rootValue << endl;
       roots.insert(rootValue);
     }
   }
@@ -124,7 +124,7 @@ void Kruskal::printTree(){
   }
   cout << endl;
 }
-
+/*
 // Find all nodes connected to
 vector< vector<int> > Kruskal::connections(int node, int weight){
   vector< vector<int> > connections; //< to, from, weight>
@@ -140,6 +140,7 @@ vector< vector<int> > Kruskal::connections(int node, int weight){
   }
   return connections;
 }
+
 
 void Kruskal::path(int start, int end){
   vector< vector<int> > nodes;
@@ -166,3 +167,4 @@ void Kruskal::path(int start, int end){
     if(beginNode == end) { break; }
   }
 }
+*/
