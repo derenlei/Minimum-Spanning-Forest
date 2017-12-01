@@ -18,8 +18,9 @@ struct edge{
   int weight;
   int mandatory; // 0 or 1
   // Sorted mandatory edges at the top of the queue above other sorted edges
+
   friend bool operator< (const edge &a, const edge &b){
-      if(a.mandatory != b.mandatory) { return a.mandatory > b.mandatory; }
+      if(a.mandatory != b.mandatory) { return a.mandatory < b.mandatory; }
       else { return a.weight > b.weight; }
   }
 };

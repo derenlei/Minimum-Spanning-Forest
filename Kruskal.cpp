@@ -52,7 +52,7 @@ void Kruskal::addEdge(){
   // test whether it will cause a loop if it's not mandatory (bid)
 
   edge e = edges.top();
-  //cout << e.point1 << " " << e.point2 << " " << e.weight;
+  //cout << "Pop " << e.point1 << " " << e.point2 << " " << e.weight << endl;
   edges.pop();
 
   if(e.mandatory == 1){

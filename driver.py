@@ -39,10 +39,15 @@ def run_test(test):
         else:
             print("Sending: {}".format(line.strip()))
             program.stdin.write(line)
+            program.stdin.flush()
             if line.strip() == "END":
                 # not going to wait on exit
-                if not program.poll():
-                    program.kill()
+                try:
+                    if not program.poll():
+                        program.kill()
+                except ignore:
+                    # suppress all exceptions
+                    pass
                 return True
 
 if __name__ == "__main__":
